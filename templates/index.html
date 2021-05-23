@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Cancer Detection</title>
+  </head>
+  <body class="bg">
+    <div id="app">
+      <h1>Cancer Detection</h1>
+	  <div style="padding-top: 16px">
+	   <label style="padding-right: 16px"> Select segmentation result: </label>
+       <input type="radio" id="rgb" name="maskcolor" value="rgb" checked="checked" ><label for="rgb">RGB</label><input type="radio" id="grayscale" name="maskcolor" value="grayscale"><label for="grayscale">Grayscale</label><br>
+      </div>
+      <div style="padding-top: 16px">
+        <label for="file" style="padding-right: 16px"> Select a file: </label>
+        <input
+          type="file"
+          id="file"
+          name="file"
+          accept="image/png, image/jpeg"
+        />
+      </div>
+      <div style="padding-top: 16px">
+        <span style="width: 40%">
+          <img src="" id="image" style="max-height: 400px" />
+        </span>
+      </div>
+      <div id="button" style="padding-top: 16px">
+        <button type="button" class="button" onclick="segmentation()">
+          Submit
+        </button>
+      </div>
+      <div id="loader" style="padding-left: 48%; padding-top: 16px" hidden>
+        <div class="loader"></div>
+      </div>
+    </div>
+  </body>
+</html>
+
+<script>
+  var file = document.getElementById("file");
+  var image = document.getElementById("image");
+  var button = document.getElementById("button");
+  var loader = document.getElementById("loader");
+  var maskcolor = document.getElementsByName("maskcolor");
+
+  file.addEventListener("change", async function () {
+    if (file.files.length > 0) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        image.src = e.target.result;
+      };
+      reader.readAsDataURL(file.files[0]);
+    }
+  });
+
+  async function segmentation() {
+    button.style.display = "none";
+    loader.style.display = "block";
+	
+    const formData = new FormData();
+    formData.append("file", file.files[0]);
+	for (var i = 0, length = maskcolor.length; i < length; i++) {
+	
+		if (maskcolor[i].checked) {
+		// do whatever you want with the checked radio
+		formData.append("maskcolor", maskcolor[i].value)
+		// only one radio can be logically checked, don't check the rest
+		break;
+	}
+  }
+	
+	
+    const response = await fetch("/seg", {
+      method: "POST",
+      body: formData,
+    });
+    image.src = await response.text();
+    loader.style.display = "none";
+    button.style.display = "block";
+  }
+</script>
+
+<style>
+  #app {
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 5%;
+  }
+
+  .bg {
+    /* The image used */
+    background-image: url("./static/background.jpeg");
+
+    /* Full height */
+    height: 100%;
+    min-height: 680px;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .button {
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    background-color: #1b73d8;
+    border-radius: 5px;
+  }
+
+  .loader {
+    border: 8px solid #f3f3f3; /* Light grey */
+    border-top: 8px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 2s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>
