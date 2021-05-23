@@ -1,4 +1,4 @@
-# NUS_ISS_ITESS
+# NUS_ISS_ITSS
 
 # install dependencies
 pip install -r requirements.txt
