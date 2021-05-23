@@ -66,7 +66,6 @@ of how it works. Even you use pre-trained model in some modules, provide a descr
 You should also give details about what (hyper)parameters you chose and how
 you chose them. What your primary metrics are: accuracy, precision, etc. Provide equations for the metrics if necessary. You also need to evaluate your approach in various experimental setups. For results, you want to have a mixture of tables and plots. To reiterate, you must have both quantitative and qualitative results! Include visualizations of results, examples of where your approach failed and a discussion of why certain approach failed or succeeded. 
 
-
 Find the result in Figure \ref{figure1}
 \begin{figure}[tbh]
     \centerline{\begin{tabular}{cc}
@@ -393,6 +392,20 @@ Multidimensional Dice coefficient is used as loss function and is provided in Fi
     }
 \end{table}
 
+\begin{table}[tbh]
+\caption{prostate cancel data.}\label{table17} \centerline{
+    \begin{tabular}{ccccccc}
+    \hline\hline
+    Name & Benign & 6(3+3) & 7(3+4,4+3) & 8(4+4,3+5,5+3) & 9(4+5,5+4) & 10(5+5)  \\\hline
+    TMA76 & $42$ & $35$ & $25$ & $15$ & $2$ & $14$ \\\hline
+    TMA80 & $12$ & $88$ & $38$ & $91$ & $3$ & $13$  \\\hline
+    TMA111 & $0$ & $95$ & $39$ & $69$ & $16$ & $8$   \\\hline
+    TMA199 & $61$ & $69$ & $17$ & $26$ & $2$ & $1$  \\\hline
+    TMA204 & $0$ & $1$ & $2$ & $25$ & $8$ & $69$  \\\hline
+    \end{tabular}
+    }
+\end{table}
+
 \subsection{reference}
 dataset : https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/OCYCMP
 Epithelium segmentation using deep learning in H&E-stained prostate specimens with immunohistochemistry as reference standard: https://www.nature.com/articles/s41598-018-37257-4
@@ -415,5 +428,6 @@ This section should describe contributions of each team member to the project.
 
 \bibliographystyle{IEEEbib}
 \bibliography{references}
+\ref{He:16CVPR
 
 \end{document}
